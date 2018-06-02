@@ -1,22 +1,52 @@
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class DialogPanel extends cc.Component {
+    static Instance: DialogPanel;
+    onLoad() { DialogPanel.Instance = this; }
 
     @property(cc.Label)
-    label: cc.Label = null;
+    lblTitle: cc.Label = null;
+    @property(cc.Label)
+    lblContext: cc.Label = null;
 
-    @property
-    text: string = 'hello';
+    @property(cc.Node)
+    btn0: cc.Node = null;
+    @property(cc.Label)
+    lblBtn0: cc.Label = null;
+    @property(cc.Node)
+    btn1: cc.Node = null;
+    @property(cc.Label)
+    lblBtn1: cc.Label = null;
 
-    // LIFE-CYCLE CALLBACKS:
+    func0: () => any;
+    func1: () => any;
 
-    // onLoad () {}
-
-    start () {
-
+    static PopupWith1Button(title: string, text: string, btn0String: string, button0Callback: () => any) {
+        this.Instance.show();
+        this.Instance.lblTitle.string = title;
+        this.Instance.lblContext.string = text;
+        this.Instance.func0 = button0Callback;
+        this.Instance.lblBtn0.string = btn0String;
+        this.Instance.btn0.active = true;
+        this.Instance.btn1.active = false;
     }
-
-    // update (dt) {}
+    static PopupWith2Buttons(title: string, text: string, btn0String: string, button0Callback: () => any, btn1String: string, button1Callback: () => any) {
+        this.Instance.show();
+        this.Instance.lblTitle.string = title;
+        this.Instance.lblContext.string = text;
+        this.Instance.func0 = button0Callback;
+        this.Instance.lblBtn0.string = btn0String;
+        this.Instance.btn0.active = true;
+        this.Instance.func1 = button0Callback;
+        this.Instance.lblBtn1.string = btn0String;
+        this.Instance.btn1.active = true;
+    }
+    show() {
+        this.node.active = true;
+    }
+    close() {
+        this.node.active = false;
+    }
 }
