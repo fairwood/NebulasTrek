@@ -4,7 +4,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class DialogPanel extends cc.Component {
     static Instance: DialogPanel;
-    onLoad() { DialogPanel.Instance = this; }
+    onLoad() { DialogPanel.Instance = this; this.hide();}
 
     @property(cc.Label)
     lblTitle: cc.Label = null;
@@ -30,6 +30,7 @@ export default class DialogPanel extends cc.Component {
         this.Instance.func0 = button0Callback;
         this.Instance.lblBtn0.string = btn0String;
         this.Instance.btn0.active = true;
+        this.Instance.btn0.position = new cc.Vec2(0, 0);
         this.Instance.btn1.active = false;
     }
     static PopupWith2Buttons(title: string, text: string, btn0String: string, button0Callback: () => any, btn1String: string, button1Callback: () => any) {
@@ -39,14 +40,22 @@ export default class DialogPanel extends cc.Component {
         this.Instance.func0 = button0Callback;
         this.Instance.lblBtn0.string = btn0String;
         this.Instance.btn0.active = true;
+        this.Instance.btn0.position = new cc.Vec2(-150, 0);
         this.Instance.func1 = button0Callback;
         this.Instance.lblBtn1.string = btn0String;
         this.Instance.btn1.active = true;
+        this.Instance.btn1.position = new cc.Vec2(150, 0);
+    }
+    onBtn0Click() {
+        if (this.func0) this.func0();
+    }
+    onBtn1Click() {
+        if (this.func1) this.func1();
     }
     show() {
         this.node.active = true;
     }
-    close() {
+    hide() {
         this.node.active = false;
     }
 }
